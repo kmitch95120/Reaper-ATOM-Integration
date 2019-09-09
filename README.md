@@ -19,7 +19,7 @@ SendMIDI has pre-built binaries available for several platforms. I run SendMIDI 
 
 Everything related to my exploration and experimentation can be found in the "Explore" directory of the repo.
 
-## Code abd Documentation ##
+## Code and Documentation ##
 
 All of the Reaper scripts I create can be found in the ReaScript directory.
 
