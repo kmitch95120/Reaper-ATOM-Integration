@@ -18,3 +18,9 @@ MIDI Monitor is written for the Mac but I'm sure there are similar tools availab
 SendMIDI has pre-built binaries available for several platforms. I run SendMIDI with simple bash shell scripts just to reduce typing and to keep a consistent record of what I've tried out and what works or what doesn't.
 
 Everything related to my exploration and experimentation can be found in the "Explore" directory of the repo.
+
+## Code abd Documentation ##
+
+All of the Reaper scripts I create can be found in the ReaScript directory.
+
+All of the formal documentation I create can be found in the Docs directory. 
