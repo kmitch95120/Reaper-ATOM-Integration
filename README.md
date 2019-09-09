@@ -11,7 +11,7 @@ This repo is a compilation of information and code I've discovered, compiled, an
 
 ## Exploring and the Tools I Use ##
 
-My platform of choice for working with MIDI is a Mac.  The tools I use are both free and open source: [MIDI Monitor]() and [SendMIDI]().
+My platform of choice for working with MIDI is a Mac.  The tools I use are both free and open source: [MIDI Monitor](https://github.com/krevis/MIDIApps) and [SendMIDI](https://github.com/gbevin/SendMIDI).
 
 MIDI Monitor is written for the Mac but I'm sure there are similar tools available for other platforms.  The one feature of MIDI Monitor that is crucial is the ability to "spy" on MIDI output destinations.  In other words, you can see what a MIDI device is sending AND also what is being sent to the MIDI device. The one feature I wish MIDI Monitor had was the ability to display the raw MIDI messages along side the human readable messages, since it's the raw data that's needed for Reaper.
 
@@ -23,4 +23,4 @@ Everything related to my exploration and experimentation can be found in the "Ex
 
 All of the Reaper scripts I create can be found in the ReaScript directory.
 
-All of the formal documentation I create can be found in the Docs directory. 
+All of the formal documentation I create can be found in the Docs directory.
