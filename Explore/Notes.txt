@@ -1,0 +1,64 @@
+This information is based on ATOM Firmware v3.00 as reported by Universal Control
+
+Messages are sent to ATOM on MIDI channels 1, 2-4 (RGB Color Settings), and 16 (Native Control)
+
+One of the first things I discovered was how Studio One gets the ATOM in and out of Native Control Mode. 
+
+Studio One Native Control:
+Enable (Blue Logo): Channel 16 Note Off 0 Velocity 127
+Disable (Green Logo): Channel 16 Note Off 0 Velocity 0
+
+Everything below is based on being in Native Control Mode. 
+
+Pad LEDs:
+
+Pad Note xx is 36 - 51 for Pads 01-16. Note that there are no "Banks" in NC mode. 
+
+Pad xx LED On: Channel 1 Note On xx Velocity 127
+Pad xx LED Off: Channel 1 Note On xx Velocity 0
+
+Pad LED Color:
+
+This even works if the Pad LED isn't On, so you can pre-set the color and then turn the pad LED on. 
+
+Channel 2: Red
+Channel 3: Green
+Channel 4: Blue
+
+Channel X Note On xx Velocity yy
+where X is for RGB channels (2-4), xx is pad note (36-51), yy is intensity (0-127)
+
+
+Button LEDs:
+
+Button CCs are defined in Section 5 of the ATOM Owner's Manual. Note that there is no "shifted" CCs in NC mode. The <SHIFT> button is CC 32 which isn't defined in Section 5. 
+
+On and Off is actually Bright and Dim. There's no way that I've found (yet) to actually turn off the button LEDs.
+
+Button xx LED On: Channel 1 CC xx 127
+Button xx LED Off: Channel 1 CC xx 0
+
+Button LED Color:
+
+There are three buttons that allow their colors to be changed in the same as the pads.
+
+Preset +/- (27), Bank (26), and Play (109)
+
+Instead of using Note On we need to use:
+
+Channel 2 CC xx yy -- Red
+Channel 3 CC xx yy -- Green
+Channel 4 CC xx yy -- Blue
+
+
+Encoders:
+
+Encoder 1 - 4 are Channel 1 CC 14 - 17 <direction>
+
+Rotate Clockwise is CC xx 1 for each step 
+Rotate Counter-Clockwise is CC xx 65 for each step 
+
+Encoders are continuous in this mode. One full rotation is XX steps. (Need to figure this out. Looks like about 32)
+
+
+

@@ -1,0 +1,21 @@
+86 - Setup
+85 - Set Loop
+31 - Editor
+30 - Nudge
+29 - Show/Hide
+27 - Preset +/-
+26 - Bank
+25 - Full Level
+24 - Note Repeat
+32 - Shift
+
+87 - Up
+89 - Down
+90 - Left
+102 - Right
+103 - Select
+104 - Zoom
+105 - Click
+107 - Record
+109 - Play
+111 - Stop

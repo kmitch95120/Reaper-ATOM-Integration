@@ -1,0 +1,134 @@
+// Enable NC Mode
+09:42:31.612	To ATOM	Note Off	16	0	127
+
+// This is a MIDI Monitor Capture of the messages Studio One
+// sends to the ATOM when a new song is created. 
+//
+
+//
+// Turn On Pad LEDs and set Color to Medium Blue 
+//
+// Pad 01-16 (Note 36 - 51)
+//
+09:43:36.445	To ATOM	Note On	1	36	127
+09:43:36.450	To ATOM	Note Off	2	36	0  // Note On works as well 
+09:43:36.450	To ATOM	Note On	3	36	12
+09:43:36.450	To ATOM	Note On	4	36	88
+
+09:43:36.450	To ATOM	Note On	1	37	127
+09:43:36.450	To ATOM	Note Off	2	37	0
+09:43:36.450	To ATOM	Note On	3	37	12
+09:43:36.450	To ATOM	Note On	4	37	88
+
+09:43:36.450	To ATOM	Note On	1	38	127
+09:43:36.450	To ATOM	Note Off	2	38	0
+09:43:36.450	To ATOM	Note On	3	38	12
+09:43:36.450	To ATOM	Note On	4	38	88
+
+09:43:36.450	To ATOM	Note On	1	39	127
+09:43:36.450	To ATOM	Note Off	2	39	0
+09:43:36.450	To ATOM	Note On	3	39	12
+09:43:36.450	To ATOM	Note On	4	39	88
+
+09:43:36.450	To ATOM	Note On	1	40	127
+09:43:36.450	To ATOM	Note Off	2	40	0
+09:43:36.450	To ATOM	Note On	3	40	12
+09:43:36.450	To ATOM	Note On	4	40	88
+
+09:43:36.450	To ATOM	Note On	1	41	127
+09:43:36.450	To ATOM	Note Off	2	41	0
+09:43:36.450	To ATOM	Note On	3	41	12
+09:43:36.450	To ATOM	Note On	4	41	88
+
+09:43:36.450	To ATOM	Note On	1	42	127
+09:43:36.450	To ATOM	Note Off	2	42	0
+09:43:36.450	To ATOM	Note On	3	42	12
+09:43:36.450	To ATOM	Note On	4	42	88
+
+09:43:36.450	To ATOM	Note On	1	43	127
+09:43:36.450	To ATOM	Note Off	2	43	0
+09:43:36.450	To ATOM	Note On	3	43	12
+09:43:36.450	To ATOM	Note On	4	43	88
+
+09:43:36.450	To ATOM	Note On	1	44	127
+09:43:36.450	To ATOM	Note Off	2	44	0
+09:43:36.450	To ATOM	Note On	3	44	12
+09:43:36.450	To ATOM	Note On	4	44	88
+
+09:43:36.450	To ATOM	Note On	1	45	127
+09:43:36.450	To ATOM	Note Off	2	45	0
+09:43:36.450	To ATOM	Note On	3	45	12
+09:43:36.450	To ATOM	Note On	4	45	88
+
+09:43:36.450	To ATOM	Note On	1	46	127
+09:43:36.450	To ATOM	Note Off	2	46	0
+09:43:36.450	To ATOM	Note On	3	46	12
+09:43:36.450	To ATOM	Note On	4	46	88
+
+09:43:36.450	To ATOM	Note On	1	47	127
+09:43:36.450	To ATOM	Note Off	2	47	0
+09:43:36.450	To ATOM	Note On	3	47	12
+09:43:36.450	To ATOM	Note On	4	47	88
+
+09:43:36.450	To ATOM	Note On	1	48	127
+09:43:36.450	To ATOM	Note Off	2	48	0
+09:43:36.450	To ATOM	Note On	3	48	12
+09:43:36.450	To ATOM	Note On	4	48	88
+
+09:43:36.450	To ATOM	Note On	1	49	127
+09:43:36.450	To ATOM	Note Off	2	49	0
+09:43:36.450	To ATOM	Note On	3	49	12
+09:43:36.450	To ATOM	Note On	4	49	88
+
+09:43:36.450	To ATOM	Note On	1	50	127
+09:43:36.450	To ATOM	Note Off	2	50	0
+09:43:36.450	To ATOM	Note On	3	50	12
+09:43:36.450	To ATOM	Note On	4	50	88
+
+09:43:36.450	To ATOM	Note On	1	51	127
+09:43:36.450	To ATOM	Note Off	2	51	0
+09:43:36.450	To ATOM	Note On	3	51	12
+09:43:36.450	To ATOM	Note On	4	51	88
+
+//
+// Now for the Buttons
+//
+09:43:36.450	To ATOM	Control	1	86	0  // Setup
+09:43:36.450	To ATOM	Control	1	31	0  // Editor
+09:43:36.450	To ATOM	Control	1	85	0  // Set Loop
+09:43:36.450	To ATOM	Control	1	30	0  // Nudge
+
+09:43:36.450	To ATOM	Control	1	27	0    // Preset +/-
+09:43:36.450	To ATOM	Control	2	27	127
+09:43:36.450	To ATOM	Control	3	27	65
+09:43:36.450	To ATOM	Control	4	27	0
+
+09:43:36.450	To ATOM	Control	1	25	0   // Full Level
+
+09:43:36.450	To ATOM	Control	1	26	0   // Bank
+09:43:36.450	To ATOM	Control	2	26	0   
+09:43:36.450	To ATOM	Control	3	26	12
+09:43:36.450	To ATOM	Control	4	26	88
+
+09:43:36.450	To ATOM	Control	1	32	0   // Shift
+
+09:43:36.450	To ATOM	Control	1	104	0   // Zoom
+
+09:43:36.450	To ATOM	Control	2	103	0   // Select - Not sure why CH 1 isn't set to Dim. 
+09:43:36.450	To ATOM	Control	3	103	0
+09:43:36.450	To ATOM	Control	4	103	88
+
+09:43:36.450	To ATOM	Control	1	109	0   // Play to Dim (see below) 
+
+09:43:36.450	To ATOM	Control	1	111	127  // Stop to Bright
+
+09:43:36.450	To ATOM	Control	1	107	0   // Record to Dim
+
+09:43:36.450	To ATOM	Control	2	109	0   // Play to Light Green
+09:43:36.450	To ATOM	Control	3	109	51
+09:43:36.450	To ATOM	Control	4	109	0
+
+09:43:36.450	To ATOM	Control	1	24	0   // Note Repeat to Dim
+
+09:43:36.450	To ATOM	Control	1	105	0   // Click to Dim
+
