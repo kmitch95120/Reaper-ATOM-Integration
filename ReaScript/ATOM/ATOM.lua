@@ -84,6 +84,14 @@ function ATOM.nc_mode(op)
   end
 end
 
+function ATOM.start_polling()
+    
+  if reaper.HasExtState("ATOM", "outID") then 
+    val = reaper.NamedCommandLookup("_RSf8e4f6430c6d03c69b2d5f2519ef97465317e503")
+    reaper.Main_OnCommand(val, 0)
+  end
+end
+
 -- Handle Shift Key 
 function ATOM.handleShift(value)
 
