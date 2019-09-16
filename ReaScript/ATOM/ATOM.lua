@@ -126,14 +126,8 @@ function ATOM.handlePlay(value)
     return -1
   end
 
-  if reaper.HasExtState("ATOM", "shift_state") then
-    shifted = 1
-  else
-    shifted = 0
-  end
-
   if value == 127 then
-    if shifted == 1 then
+    if reaper.HasExtState("ATOM", "shift_state") then
       -- Repeat
       reaper.GetSetRepeat(2) -- Toggle Repeat
       if reaper.GetSetRepeat(-1) == 0 then -- Repeat Off     
@@ -146,6 +140,36 @@ function ATOM.handlePlay(value)
       reaper.Main_OnCommand(1007, 0) -- Transport: Play
       ATOM.setButtonLED("bright", 109) -- Play Bright
       ATOM.setButtonLED("dim", 111) -- Stop Dim
+    end
+  end
+end
+
+function ATOM.handleClick(value)
+
+  local devID
+
+  if reaper.HasExtState("ATOM", "outID") then
+    devID = tonumber(reaper.GetExtState("ATOM", "outID"))
+  else
+    -- Can't do anything without a valid outID
+    return -1
+  end
+
+  if value == 127 then
+    if reaper.HasExtState("ATOM", "shift_state") then
+      -- Count-in before Recording
+      reaper.Main_OnCommand(40363, 0) -- Show Metronome/Pre-roll settings
+    else
+      -- Metronome (Click track equivalent)
+      if reaper.HasExtState("ATOM", "click_state") then
+        ATOM.setButtonLED("dim", 105) --Click Button
+        reaper.Main_OnCommand(41746, 0) -- Metronome Disable
+        reaper.DeleteExtState("ATOM", "click_state", 1)
+      else
+        ATOM.setButtonLED("bright", 105) --Click Button
+        reaper.Main_OnCommand(41745, 0) -- Metronome Enable
+        reaper.SetExtState("ATOM", "click_state", "1", 0)
+      end
     end
   end
 end
@@ -166,6 +190,7 @@ function ATOM.handleStop(value)
   if value == 127 then
     reaper.Main_OnCommand(1016, 0) -- Transport: Stop
     ATOM.setButtonLED("bright", 111)-- Stop Bright  
+    ATOM.setButtonLED("dim", 107)-- Record Dim
     ATOM.setButtonLED("dim", 109)-- Play Dim  
   end
 end
@@ -182,10 +207,14 @@ function ATOM.handleRecord(value)
   end
 
   if value == 127 then
-    reaper.Main_OnCommand(1013, 0) -- Transport: Record
-    ATOM.setButtonLED("bright", 107) -- Record Bright
-    ATOM.setButtonLED("bright", 109) -- PlayBright
-    ATOM.setButtonLED("dim", 111) -- Stop Dim
+    if reaper.HasExtState("ATOM", "shift_state") then
+      reaper.Main_OnCommand(40026, 0) -- Save current project
+    else
+      reaper.Main_OnCommand(1013, 0) -- Transport: Record
+      ATOM.setButtonLED("bright", 107) -- Record Bright
+      ATOM.setButtonLED("bright", 109) -- Play Bright
+      ATOM.setButtonLED("dim", 111) -- Stop Dim
+    end
   end
 end
 
