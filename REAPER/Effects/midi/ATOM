@@ -1,0 +1,90 @@
+desc:Presonus ATOM 
+//tags: MIDI
+//author: Ken Mitchell
+
+slider1:1<0,1,1{No,Yes}>Generate CC Messages for Pads:
+slider2:0<0,1,1{No,Yes}>Pass AfterTouch Messages for Pads:
+slider3:1<0,1,1{No,Yes}>Pass CC Messages for Buttons:
+slider4:1<0,1,1{No,Yes}>Route CC Messages to Alt Channel:
+slider5:1<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Alt Channel:
+
+in_pin:none
+out_pin:none
+
+@init
+
+NOTE_OFF = 8;
+NOTE_ON = 9;
+CC = 11;
+AT = 13;
+PAD01 = 36;
+PAD16 = 51;
+
+@slider
+
+genCC = slider1;   // For Pads
+passAT = slider2;  // For Pads (AfterTouch)
+passCC = slider3;  // For Buttons
+routeCC = slider4; // Route CCs to Alt Channel
+altChan = slider5; // Alt Channel to Route to
+
+@block
+
+while (
+  input = midirecv(mpos, msg1, msg2, msg3);
+    input ? (
+      status = msg1; 
+      statusHi = (status/16)|0; // command
+      statusLo = (status-(statusHi*16))|0; // channel 
+     
+      !statusLo ? (  // Ignore anything but Channel 1
+          
+        routeCC ? offset = altChan : offset = 0;
+        
+        // Note ONs
+        //
+        statusHi == NOTE_ON && msg3 > 0 ? (
+          ignore = (msg2 < PAD01 || msg2 > PAD16);
+          !ignore ? (     
+            genCC ? (
+              newmsg1 = 176+offset; // account for alt channel
+              newmsg3 = 127; // XXX: Consider sending real velocity
+              midisend(mpos, newmsg1, msg2, newmsg3);            
+            );
+          // In all cases, pass the Note thru
+            midisend(mpos, msg1, msg2, msg3);            
+          );
+        ):
+  
+        // Note OFFs
+        //
+        statusHi == NOTE_OFF || (statusHi == NOTE_ON && msg3 == 0 ) ? ( 
+            ignore = (msg2 < PAD01 || msg2 > PAD16); 
+            !ignore ? ( 
+              genCC ? (
+                newmsg1 = 176+offset; // account for alt channel
+                newmsg3 = 0; // XXX: Consider sending real velocity
+                midisend(mpos, newmsg1, msg2, newmsg3);            
+              );
+            // In all cases, pass the Note thru
+              midisend(mpos, msg1, msg2, msg3);            
+            );
+        ):
+        
+        // Control Change Messages (i.e Buttons)
+        //
+        statusHi == CC ? (
+          passCC ? midisend(mpos, msg1+offset, msg2, msg3);
+        ):
+        
+        // AfterTouch Messages (for Pads)
+        //
+        statusHi == AT ? (
+          passAT ? midisend(mpos, msg1, msg2, msg3);
+        );
+      
+      ); // statusLo == 0?
+    
+    );
+  input;
+);

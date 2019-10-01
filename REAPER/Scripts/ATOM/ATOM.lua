@@ -1,3 +1,6 @@
+colors = reaper.GetResourcePath() .. "/Scripts/ATOM/COLORS.lua"
+dofile(colors)
+
 local ATOM = { }
 
 -- One place to turn ShowConsoleMsg Debug On or Off
@@ -218,7 +221,122 @@ function ATOM.handleRecord(value)
   end
 end
 
+function ATOM.handlePad(pad, value)
+
+  local devID
+
+  if reaper.HasExtState("ATOM", "outID") then
+    devID = tonumber(reaper.GetExtState("ATOM", "outID"))
+  else
+    -- Can't do anything without a valid outID
+    return -1
+  end
+  
+  if value == 127 then
+    ATOM.setPadLED("press", 35+pad)    --
+  else
+    ATOM.setPadLED("release", 35+pad)    --
+  end
+end
+
+function ATOM.setPadLED(mode, num)
+  local devID
+  if reaper.HasExtState("ATOM", "outID") then 
+    devID = reaper.GetExtState("ATOM", "outID")  
+  else
+  -- This should never get hit since the existance of outID 
+  -- should have checked before the call to this function. 
+    ATOM.dbg_msg("\nATOM: Can't find outID")
+    return -1
+  end
+  
+  if reaper.HasExtState("ATOM", "padColor") then 
+    colordata = reaper.GetExtState("ATOM", "padColor")  
+    -- Load and execute a "chunk" that creates a table
+    load(colordata)()    
+  else
+    ATOM.dbg_msg("\nATOM: Can't find padColor")
+    return -1
+  end
+  
+  if string.lower(mode) == "press" then
+    reaper.StuffMIDIMessage(devID, 144, tonumber(num), 127)
+    reaper.StuffMIDIMessage(devID, 145, tonumber(num), padColor[4]) -- Channel 2 (Red)
+    reaper.StuffMIDIMessage(devID, 146, tonumber(num), padColor[5]) -- Channel 3 (Green)
+    reaper.StuffMIDIMessage(devID, 147, tonumber(num), padColor[6]) -- Channel 4 (Blue)
+    ATOM.dbg_msg("\nSet Pad to PRESS")
+  elseif string.lower(mode) == "release" then
+    reaper.StuffMIDIMessage(devID, 144, tonumber(num), 127)
+    reaper.StuffMIDIMessage(devID, 145, tonumber(num), padColor[1]) -- Channel 2 (Red)
+    reaper.StuffMIDIMessage(devID, 146, tonumber(num), padColor[2]) -- Channel 3 (Green)
+    reaper.StuffMIDIMessage(devID, 147, tonumber(num), padColor[3]) -- Channel 4 (Blue)
+    ATOM.dbg_msg("\nSet Pad to Release")
+  else
+    ATOM.dbg_msg("\nATOM:SetPadLED() - Invalid Mode Requested")
+      return -1 -- invalid option
+  end
+end
+
 --
+-- Define the padColor table
+-- Save padColor as a "chunk"
+-- Call setPadLED to change the pad color
+--
+--
+function ATOM.setPadColor(color)
+  
+  if string.lower(color) == 'red' then
+    data = RED
+  elseif string.lower(color) == '-red' then
+    data = invRED
+  elseif string.lower(color) == 'green' then
+    data = GREEN
+  elseif string.lower(color) == '-green' then
+    data = invGREEN
+  elseif string.lower(color) == 'blue' then
+    data = BLUE
+  elseif string.lower(color) == '-blue' then
+    data = invBLUE
+  elseif string.lower(color) == 'yellow' then
+    data = YELLOW
+  elseif string.lower(color) == '-yellow' then
+    data = invYELLOW
+  elseif string.lower(color) == 'orange' then
+    data = ORANGE
+  elseif string.lower(color) == '-orange' then
+    data = invORANGE
+  elseif string.lower(color) == 'purple' then
+    data = PURPLE
+  elseif string.lower(color) == '-purple' then
+    data = invPURPLE
+  elseif string.lower(color) == 'cyan' then
+    data = CYAN
+  elseif string.lower(color) == '-cyan' then
+    data = invCYAN
+  elseif string.lower(color) == 'white' then
+    data = WHITE
+  elseif string.lower(color) == '-white' then
+    data = invWHITE
+  elseif string.lower(color) == 'black' then
+    data = [[ padColor = {0,0,0,0,0,0} ]]
+  elseif string.lower(color) == 'user1' then
+    data = USER1
+  elseif string.lower(color) == 'user2' then
+    data = USER2
+  elseif string.lower(color) == 'user3' then
+    data = USER3
+  elseif string.lower(color) == 'user4' then
+    data = USER4
+  else
+    ATOM.dbg_msg("\nATOM:SetPadColor() - Invalid Color")
+    return -1 -- invalid option
+  end
+  
+  reaper.SetExtState("ATOM", "padColor", data , 0)
+
+  for pad = 1,16 do ATOM.setPadLED('release', 35+pad) end
+  
+end
 --
 function ATOM.setButtonLED(mode, num)
   local devID
@@ -228,7 +346,7 @@ function ATOM.setButtonLED(mode, num)
   else
   -- This should never get hit since the existance of outID 
   -- should have checked before the call to this function. 
-    ATOM.message("\nATOM: Can't find outID")
+    ATOM.dbg_msg("\nATOM: Can't find outID")
     return -1
   end
 
@@ -237,9 +355,9 @@ function ATOM.setButtonLED(mode, num)
     ATOM.dbg_msg("\nSet Button to Bright")
   elseif string.lower(mode) == "dim" then
     reaper.StuffMIDIMessage(devID, 176, tonumber(num), 0)
-    ATOM.dbg_msg("\nNC Mode set to Disable")
+    ATOM.dbg_msg("\nNC Button to Dim")
   else
-    ATOM.message("\nATOM:SetButtonLED() - Invalid Mode Requested")
+    ATOM.dbg_msg("\nATOM:SetButtonLED() - Invalid Mode Requested")
       return -1 -- invalid option
   end
 end

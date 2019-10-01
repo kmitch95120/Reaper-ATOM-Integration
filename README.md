@@ -5,7 +5,7 @@ Exploring the integration of the Presonus ATOM Pad Controller with the Reaper Di
 
 I first saw the [Presonus ATOM](https://www.presonus.com/products/atom) in a YouTube video by Robert Mathijs from [Quest for Groove](https://questforgroove.com/). I was just starting to look for a replacement for my two year old Akai MPD218 that had just started developing the dreaded double-trigger problem. Robert recommended the ATOM as a top choice for an entry level pad controller.
 
-After watching a YouTube review of the Presonus ATOM, I was immediately intrigued by how tight it was integrated with Presonus Studio One 4.  The problem was my DAW of choice is [Reaper](https://www.reaper.fm). I have nothing against Studio One. In fact, I find it a very capable DAW. It's just not the DAW I've been using for the last nine years.
+After watching a YouTube review of the Presonus ATOM, I was immediately intrigued by how tight it was integrated with Presonus Studio One 4.  The problem is my DAW of choice is [Reaper](https://www.reaper.fm). I have nothing against Studio One. In fact, I find it a very capable DAW. It's just not the DAW I've been using for the last nine years.
 
 This repo is a compilation of information and code I've discovered, compiled, and developed to help integrate the ATOM with Reaper.
 
@@ -21,6 +21,6 @@ Everything related to my exploration and experimentation can be found in the "Ex
 
 ## Code and Documentation ##
 
-All of the Reaper scripts I create can be found in the ReaScript directory.
+All of the Reaper code I create can be found in the REAPER directory of this repo. The REAPER subdirs map to the Reaper RESOURCE PATH.
 
 All of the formal documentation I create can be found in the Docs directory.
