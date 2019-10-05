@@ -4,9 +4,14 @@ desc:Presonus ATOM
 
 slider1:1<0,1,1{No,Yes}>Generate CC Messages for Pads:
 slider2:0<0,1,1{No,Yes}>Pass AfterTouch Messages for Pads:
-slider3:1<0,1,1{No,Yes}>Pass CC Messages for Buttons:
+slider3:1<0,1,1{No,Yes}>Pass CC Messages for Buttons/Encoders:
 slider4:1<0,1,1{No,Yes}>Route CC Messages to Alt Channel:
 slider5:1<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16}>Alt Channel:
+slider6:1<0,1,1{Relative,Absolute}>Encoder Mode:
+slider7:0<0,127,1>Enc0 Initial Value (Abs Mode):
+slider8:0<0,127,1>Enc1 Initial Value (Abs Mode):
+slider9:0<0,127,1>Enc2 Initial Value (Abs Mode):
+slider10:0<0,127,1>Enc3 Initial Value (Abs Mode):
 
 in_pin:none
 out_pin:none
@@ -19,6 +24,7 @@ CC = 11;
 AT = 13;
 PAD01 = 36;
 PAD16 = 51;
+full_level = 0;
 
 @slider
 
@@ -27,6 +33,11 @@ passAT = slider2;  // For Pads (AfterTouch)
 passCC = slider3;  // For Buttons
 routeCC = slider4; // Route CCs to Alt Channel
 altChan = slider5; // Alt Channel to Route to
+encAbs = slider6; // Encoders are Relative or Absolute
+encoder0 = slider7; // Initial Encoder0 Value
+encoder1 = slider8; // Initial Encoder1 Value
+encoder2 = slider9; // Initial Encoder2 Value
+encoder3 = slider10; // Initial Encoder3 Value
 
 @block
 
@@ -51,29 +62,78 @@ while (
               newmsg3 = 127; // XXX: Consider sending real velocity
               midisend(mpos, newmsg1, msg2, newmsg3);            
             );
-          // In all cases, pass the Note thru
-            midisend(mpos, msg1, msg2, msg3);            
+            
+            // In all cases, pass the Note thru, accounting for the
+            // state of full_level
+            full_level ? midisend(mpos, msg1, msg2, 127) : midisend(mpos, msg1, msg2, msg3);
           );
         ):
   
         // Note OFFs
         //
         statusHi == NOTE_OFF || (statusHi == NOTE_ON && msg3 == 0 ) ? ( 
-            ignore = (msg2 < PAD01 || msg2 > PAD16); 
-            !ignore ? ( 
-              genCC ? (
-                newmsg1 = 176+offset; // account for alt channel
-                newmsg3 = 0; // XXX: Consider sending real velocity
-                midisend(mpos, newmsg1, msg2, newmsg3);            
-              );
-            // In all cases, pass the Note thru
-              midisend(mpos, msg1, msg2, msg3);            
+          ignore = (msg2 < PAD01 || msg2 > PAD16); 
+          !ignore ? ( 
+            genCC ? (
+              newmsg1 = 176+offset; // account for alt channel
+              newmsg3 = 0; // XXX: Consider sending real velocity
+              midisend(mpos, newmsg1, msg2, newmsg3);            
             );
+          // In all cases, pass the Note thru
+            midisend(mpos, msg1, msg2, msg3);            
+          );
         ):
         
         // Control Change Messages (i.e Buttons)
         //
         statusHi == CC ? (
+          // Full Level Button Toggle
+          (msg2 == 25 && msg3 == 127) ? (
+            full_level ? full_level = 0 : full_level = 127;
+            msg3 == full_level;
+          ):
+          encAbs ? (
+            // Encoder0 - CW (Increment)
+            (msg2 == 14 && msg3 == 1) ? (
+              encoder0 < 127 ? encoder0 += 1;
+              msg3 = encoder0;
+            ):
+            // Encoder0 - CCW (Decrement)
+            (msg2 == 14 && msg3 == 65) ? (          
+              encoder0 > 0 ? encoder0 -= 1;
+              msg3 = encoder0;
+            ):
+            // Encoder1 - CW (Increment)
+            (msg2 == 15 && msg3 == 1) ? (
+              encoder1 < 127 ? encoder1 += 1;
+              msg3 = encoder1;
+            ):
+            // Encoder1 - CCW (Decrement)
+            (msg2 == 15 && msg3 == 65) ? (          
+              encoder1 > 0 ? encoder1 -= 1;
+              msg3 = encoder1;
+            ); 
+            // Encoder2 - CW (Increment)
+            (msg2 == 16 && msg3 == 1) ? (
+              encoder2 < 127 ? encoder2 += 1;
+              msg3 = encoder2;
+            ):
+            // Encoder2 - CCW (Decrement)
+            (msg2 == 16 && msg3 == 65) ? (          
+              encoder2 > 0 ? encoder2 -= 1;
+              msg3 = encoder2;
+            ):
+            // Encoder3 - CW (Increment)
+            (msg2 == 17 && msg3 == 1) ? (
+              encoder3 < 127 ? encoder3 += 1;
+              msg3 = encoder3;
+            ):
+            // Encoder3 - CCW (Decrement)
+            (msg2 == 17 && msg3 == 65) ? (          
+              encoder3 > 0 ? encoder3 -= 1;
+              msg3 = encoder3;
+            );
+          );
           passCC ? midisend(mpos, msg1+offset, msg2, msg3);
         ):
         

@@ -221,6 +221,30 @@ function ATOM.handleRecord(value)
   end
 end
 
+--
+--
+function ATOM.handleFullLevel(value)
+
+  local devID
+
+  if reaper.HasExtState("ATOM", "outID") then
+    devID = tonumber(reaper.GetExtState("ATOM", "outID"))
+  else
+    -- Can't do anything without a valid outID
+    return -1
+  end
+
+  if value == 127 then
+    if reaper.HasExtState("ATOM", "full_level") then
+      ATOM.setButtonLED("dim", 25) -- Full Level Dim
+      reaper.DeleteExtState("ATOM", "full_level", 1)
+    else
+      ATOM.setButtonLED("bright", 25) -- Full Level Bright
+      reaper.SetExtState("ATOM", "full_level", "1", 0)
+    end
+  end
+end
+
 function ATOM.handlePad(pad, value)
 
   local devID
